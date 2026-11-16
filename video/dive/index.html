@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+<title>Shark Dive Loop</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+body{margin:0}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#003491}
+#bg{position:absolute;inset:0;background:url(assets/fondo-azul-icono-fin.png) center/cover}
+.ring{position:absolute;left:50%;top:55%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;border:3px solid rgba(255,255,255,.6)}
+.fin{position:absolute;left:0;top:760px;width:300px;height:300px}
+</style></head><body>
+<div id="root" data-composition-id="dive" data-start="0" data-width="1920" data-height="1080" data-duration="6" data-fps="30">
+  <div id="bg"></div><div id="rings"></div>
+  <svg class="fin" id="fin" viewBox="0 0 300 300"><path d="M10 290 C80 120 150 60 280 20 C230 110 210 200 205 290 Z" fill="#001f5e" opacity=".55"/></svg>
+</div>
+<script>
+const tl=gsap.timeline({paused:true});
+const rings=document.getElementById("rings");
+for(let i=0;i<5;i++){const r=document.createElement("div");r.className="ring";rings.appendChild(r);
+ const t0=i*6/5;
+ tl.fromTo(r,{scale:.2,opacity:0},{scale:9,duration:6,ease:"none"},t0);
+ tl.fromTo(r,{opacity:0},{opacity:.7,duration:1.2,ease:"none"},t0).to(r,{opacity:0,duration:3,ease:"none"},t0+1.2);}
+tl.fromTo("#bg",{scale:1},{scale:1.08,duration:3,ease:"sine.inOut"},0).to("#bg",{scale:1,duration:3,ease:"sine.inOut"},3);
+tl.fromTo("#fin",{x:-420},{x:2100,duration:6,ease:"none"},0);
+window.__timelines["dive"]=tl;
+</script></body></html>

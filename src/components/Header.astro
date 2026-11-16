@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-white.png';
+import { routes, t, type Lang, type RouteKey } from '../i18n/content';
+
+const { lang, current } = Astro.props as { lang: Lang; current: RouteKey };
+const d = t[lang].nav;
+const other: Lang = lang === 'en' ? 'es' : 'en';
+const items: RouteKey[] = ['home', 'about', 'services', 'portfolio', 'contact'];
+const isCurrent = (k: RouteKey) => k === current;
+---
+<header class="header">
+  <div class="header-bar">
+    <a class="logo" href={routes.home[lang]} aria-label="Shark Digital Agency">
+      <Image src={logo} alt="Shark Digital Agency" width={190} height={55} loading="eager" />
+    </a>
+    <nav class="nav" aria-label="Main">
+      {items.map((k) => (
+        <a class="link" href={routes[k][lang]} aria-current={isCurrent(k) ? 'page' : undefined}>{d[k]}</a>
+      ))}
+    </nav>
+    <div class="header-actions">
+      <a class="lang" href={routes[current][other]} hreflang={other} lang={other} data-astro-reload>{d.switch}</a>
+      <a class="btn sm" href={routes.contact[lang]}>{d.cta}</a>
+      <button class="burger" aria-expanded="false" aria-label={d.menu}><span></span><span></span></button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import software from '../assets/svc-software.png';
+import web from '../assets/svc-web.png';
+import ai from '../assets/svc-ai.png';
+import chat from '../assets/svc-chat.png';
+import neural from '../assets/svc-neural.png';
+const { id, alt } = Astro.props as { id: string; alt: string };
+const map: Record<string, { img?: ImageMetadata; cls: string }> = {
+  software: { img: software, cls: '' },
+  web: { img: web, cls: 'banner' },
+  automation: { img: ai, cls: 'multiply' },
+  chatbots: { img: chat, cls: '' },
+  ai: { img: neural, cls: '' },
+};
+const m = map[id];
+---
+<div class={`svc-visual ${m?.cls ?? ''}`}>
+  {m?.img ? (
+    <Image src={m.img} alt={alt} width={900} sizes="(max-width: 800px) 90vw, 520px" loading="lazy" data-parallax="0.04" />
+  ) : (
+    <video data-bg autoplay muted loop playsinline preload="metadata" src="/video/network.mp4" aria-label={alt}></video>
+  )}
+</div>

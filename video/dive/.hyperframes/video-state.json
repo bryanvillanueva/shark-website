@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "historyId": "46152f0f-3e39-4349-b03c-ff7a3f76e4a5",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "assets/fondo-azul-icono-fin.png": {
+      "hash": "06bda4a2a2ed9d59c4e528d0c1dff1bb7414444855fbc9b46c669a7658af2f6d",
+      "content": "C:\\Users\\bryan\\.cache\\hyperframes\\history\\46152f0f-3e39-4349-b03c-ff7a3f76e4a5\\blobs\\06\\06bda4a2a2ed9d59c4e528d0c1dff1bb7414444855fbc9b46c669a7658af2f6d"
+    },
+    "index.html": {
+      "hash": "d228ecb2d97f613c453759b89821a97191cfab746ba3e084423abc583aa87340",
+      "content": "C:\\Users\\bryan\\.cache\\hyperframes\\history\\46152f0f-3e39-4349-b03c-ff7a3f76e4a5\\blobs\\d2\\d228ecb2d97f613c453759b89821a97191cfab746ba3e084423abc583aa87340"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "d2922b06-6813-4169-ba91-a49f9ac67d5f",
+      "completedAt": 1792055989374,
+      "output": "C:\\Users\\bryan\\Documents\\shark-website\\mi-proyecto\\video\\dive-raw.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}

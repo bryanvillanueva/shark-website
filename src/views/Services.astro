@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Media from '../components/Media.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import ServiceVisual from '../components/ServiceVisual.astro';
+import { t, waLink, type Lang } from '../i18n/content';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t[lang];
+const s = d.servicesPage;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<Base lang={lang} current="services">
+  <PageHero eyebrow={s.eyebrow} title={s.title} sub={s.sub} video="/video/network.mp4" />
+
+  <section class="section" style="padding-top:clamp(40px,6vw,80px)">
+    <div class="wrap">
+      {d.services.items.map((x, i) => (
+        <article class={`svc-row ${i % 2 === 0 ? 'hl' : ''}`} id={x.id}>
+          <div class="svc-copy" data-reveal>
+            <span class="eyebrow">{pad(i + 1)} / {pad(d.services.items.length)}</span>
+            <h2>{x.title}</h2>
+            <p>{x.long}</p>
+            <ul class="ticks">{x.bullets.map((b) => <li>{b}</li>)}</ul>
+            <a class="btn" data-magnetic href={waLink(s.wa + x.title)} target="_blank" rel="noopener">{s.cta}<Icon name="arrow" /></a>
+          </div>
+          <ServiceVisual id={x.id} alt={x.title} />
+        </article>
+      ))}
+      <div class="svc-row" style="display:block">
+        <h3 class="h2" style="font-size:clamp(1.6rem,3vw,2.4rem)" data-reveal>{d.services.also.title}</h3>
+        <div class="chips" data-reveal-group>{d.services.also.items.map((c) => <span class="chip">{c}</span>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section on-dark dark-section">
+    <Media src="/video/dive.mp4" />
+    <div class="wrap">
+      <span class="eyebrow">{d.process.eyebrow}</span>
+      <h2 class="h2" data-split>{d.process.title}</h2>
+      <div class="steps" data-reveal-group>
+        {d.process.steps.map(([h, p], i) => <div class="step"><div class="n">{pad(i + 1)}</div><h3>{h}</h3><p>{p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <Cta lang={lang} />
+</Base>

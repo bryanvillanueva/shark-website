@@ -1,0 +1,14 @@
+---
+import Media from './Media.astro';
+import heroImg from '../assets/hero.png';
+const { eyebrow, title, sub, video = '/video/hero.mp4' } = Astro.props as { eyebrow: string; title: string; sub?: string; video?: string };
+---
+<section class="page-hero on-dark">
+  <Media src={video} poster={heroImg} />
+  <div class="wrap">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1 data-split data-hero>{title}</h1>
+    {sub && <p class="lead" data-reveal data-delay="0.5">{sub}</p>}
+    <slot />
+  </div>
+</section>

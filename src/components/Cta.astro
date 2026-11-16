@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import Media from './Media.astro';
+import { routes, t, waLink, type Lang } from '../i18n/content';
+const { lang } = Astro.props as { lang: Lang };
+const d = t[lang].cta;
+---
+<section class="cta section">
+  <Media src="/video/network.mp4" />
+  <div class="wrap">
+    <h2 data-split>{d.title}</h2>
+    <p data-reveal>{d.sub}</p>
+    <div class="actions" data-reveal>
+      <a class="btn wa" data-magnetic href={waLink(d.wa)} target="_blank" rel="noopener"><Icon name="whatsapp" />{d.b1}</a>
+      <a class="btn white" data-magnetic href={routes.contact[lang]}>{d.b2}<Icon name="arrow" /></a>
+    </div>
+  </div>
+</section>
+<style>
+  .cta :global(.media-bg) { opacity: 0.55; z-index: -1; }
+</style>

@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-white.png';
+import bg from '../assets/bg-blue.png';
+import Icon from './Icon.astro';
+import { ADDRESS, EMAIL, PHONES, SOCIAL, routes, t, type Lang, type RouteKey } from '../i18n/content';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t[lang];
+const links: RouteKey[] = ['home', 'about', 'services', 'portfolio', 'contact'];
+const socials = (['instagram', 'facebook', 'x'] as const).filter((k) => SOCIAL[k]);
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="footer-bg"><Image src={bg} alt="" width={1920} height={1080} loading="lazy" /></div>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <Image class="flogo" src={logo} alt="Shark Digital Agency" width={190} height={55} />
+        <address>
+          <strong>{ADDRESS[0]}</strong><br />
+          {PHONES.map((ph) => <><strong>Tel:</strong> <a href={`tel:${ph.tel}`}>{ph.display}</a><br /></>)}
+          <strong>Email:</strong> <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </address>
+        {socials.length > 0 && (
+          <div class="socials">{socials.map((k) => <a href={SOCIAL[k]} target="_blank" rel="noopener" aria-label={k}><Icon name={k} /></a>)}</div>
+        )}
+      </div>
+      <div>
+        <h4>{d.footer.links}</h4>
+        <ul>{links.map((k) => <li><a href={routes[k][lang]}>{d.nav[k]}</a></li>)}</ul>
+      </div>
+      <div>
+        <h4>{d.footer.services}</h4>
+        <ul>{d.services.items.map((s) => <li><a href={`${routes.services[lang]}#${s.id}`}>{s.title}</a></li>)}</ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} {d.footer.rights.replace(/^Copyright /, '')}</span>
+      <span>{d.footer.tag}</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { ADDRESS, EMAIL, PHONES, SOCIAL, WHATSAPP, t, type Lang } from '../i18n/content';
+
+const { lang } = Astro.props as { lang: Lang };
+const d = t[lang].contact;
+const f = d.form;
+const socials = (['instagram', 'facebook', 'x'] as const).filter((k) => SOCIAL[k]);
+---
+<Base lang={lang} current="contact">
+  <PageHero eyebrow={d.eyebrow} title={d.title} sub={d.sub} />
+  <section class="section">
+    <div class="wrap contact-grid">
+      <div class="info" data-reveal>
+        <h2>{d.info}</h2>
+        <div class="info-list">
+          {PHONES.map((ph) => <a href={`tel:${ph.tel}`}><Icon name="phone" />{ph.display}</a>)}
+          <a href={`mailto:${EMAIL}`}><Icon name="mail" />{EMAIL}</a>
+          <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp</a>
+          <p><Icon name="pin" /><span>{ADDRESS[0]}</span></p>
+        </div>
+        {socials.length > 0 && (
+          <>
+            <h2>{d.follow}</h2>
+            <div class="socials">{socials.map((k) => <a href={SOCIAL[k]} target="_blank" rel="noopener" aria-label={k}><Icon name={k} /></a>)}</div>
+          </>
+        )}
+      </div>
+      <form class="form" data-contact data-wa={WHATSAPP} data-mail={EMAIL} data-hello={d.waHello} data-required={f.required} novalidate data-reveal>
+        <div class="row2">
+          <div class="field"><label for="name">{f.name}</label><input id="name" name="name" type="text" placeholder={f.namePh} autocomplete="name" required /></div>
+          <div class="field"><label for="email">{f.email}</label><input id="email" name="email" type="email" placeholder={f.emailPh} autocomplete="email" /></div>
+        </div>
+        <div class="field">
+          <label for="topic">{f.topic}</label>
+          <select id="topic" name="topic">{f.topics.map((o) => <option value={o}>{o}</option>)}</select>
+        </div>
+        <div class="field"><label for="message">{f.message}</label><textarea id="message" name="message" placeholder={f.messagePh} required></textarea></div>
+        <p class="err" role="alert"></p>
+        <div class="actions">
+          <button type="button" class="btn wa" data-wa data-magnetic><Icon name="whatsapp" />{f.viaWa}</button>
+          <button type="submit" class="btn" data-magnetic>{f.viaMail}<Icon name="arrow" /></button>
+        </div>
+        <p class="hint">{f.hint}</p>
+      </form>
+    </div>
+  </section>
+</Base>

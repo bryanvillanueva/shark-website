@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+<title>Shark Network Loop</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+body{margin:0}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#0e5fb3 0%,#003491 55%,#001a52 100%)}
+svg{position:absolute;inset:0}
+.grid{position:absolute;inset:-200px;background-image:linear-gradient(rgba(146,206,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(146,206,255,.10) 1px,transparent 1px);background-size:80px 80px}
+</style></head><body>
+<div id="root" data-composition-id="network" data-start="0" data-width="1920" data-height="1080" data-duration="8" data-fps="30">
+  <div class="grid" id="grid"></div>
+  <svg id="s" viewBox="0 0 1920 1080"></svg>
+</div>
+<script>
+const rnd=(function(){let s=11;return function(){s=(s*16807)%2147483647;return s/2147483647;};})();
+const tl=gsap.timeline({paused:true});
+tl.fromTo("#grid",{x:0,y:0},{x:-80,y:-80,duration:8,ease:"none"},0);
+const svg=document.getElementById("s"),NS="http://www.w3.org/2000/svg",N=46,P=[];
+for(let i=0;i<N;i++)P.push({x:rnd()*1920,y:rnd()*1080,ph:rnd()*6.28,a:14+rnd()*30});
+const L=[];
+for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);if(d<300){const l=document.createElementNS(NS,"line");l.setAttribute("stroke","rgba(146,206,255,.38)");svg.appendChild(l);L.push([l,i,j,rnd()]);}}
+const pulses=L.map(function(){const c=document.createElementNS(NS,"circle");c.setAttribute("r",4);c.setAttribute("fill","#fff");svg.appendChild(c);return c;});
+const D=P.map(function(){const c=document.createElementNS(NS,"circle");c.setAttribute("r",5);c.setAttribute("fill","#92CEFF");svg.appendChild(c);return c;});
+const st={t:0};
+function draw(){const ph=st.t/8,t=ph*Math.PI*2;
+ P.forEach(function(p,i){p.cx=p.x+Math.cos(t+p.ph)*p.a;p.cy=p.y+Math.sin(t+p.ph)*p.a;D[i].setAttribute("cx",p.cx);D[i].setAttribute("cy",p.cy);});
+ L.forEach(function(a,k){const l=a[0],i=a[1],j=a[2],o=a[3];l.setAttribute("x1",P[i].cx);l.setAttribute("y1",P[i].cy);l.setAttribute("x2",P[j].cx);l.setAttribute("y2",P[j].cy);
+  const u=(ph*2+o)%1,c=pulses[k];c.setAttribute("cx",P[i].cx+(P[j].cx-P[i].cx)*u);c.setAttribute("cy",P[i].cy+(P[j].cy-P[i].cy)*u);c.setAttribute("opacity",Math.sin(u*Math.PI)*(o>.55?1:0));});}
+tl.to(st,{t:8,duration:8,ease:"none",onUpdate:draw},0);draw();
+window.__timelines["network"]=tl;
+</script></body></html>

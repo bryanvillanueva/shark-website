@@ -1,0 +1,10 @@
+---
+// Looping HyperFrames-rendered background video with an image poster.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+const { src, poster } = Astro.props as { src: string; poster?: ImageMetadata };
+const p = poster ? await getImage({ src: poster, width: 1280, format: 'webp' }) : null;
+---
+<div class="media-bg" aria-hidden="true">
+  <video data-bg autoplay muted loop playsinline preload="metadata" poster={p?.src} src={src}></video>
+</div>

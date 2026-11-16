@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Cta from '../components/Cta.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects, t, type Lang } from '../i18n/content';
+
+const { lang } = Astro.props as { lang: Lang };
+const w = t[lang].work;
+---
+<Base lang={lang} current="portfolio">
+  <PageHero eyebrow={w.eyebrow} title={w.title} sub={w.sub} />
+  <section class="section">
+    <div class="wrap pgrid" data-reveal-group>
+      {projects.map((p) => <ProjectCard lang={lang} p={p} />)}
+    </div>
+  </section>
+  <Cta lang={lang} />
+</Base>

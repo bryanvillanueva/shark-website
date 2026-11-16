@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+<title>Shark Hero Loop</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+body{margin:0;background:#00123a}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#00123a}
+.layer{position:absolute;inset:0}
+#bg{background:url(assets/hero.png) center/cover;transform-origin:62% 48%}
+#tint{background:radial-gradient(ellipse at 70% 40%,rgba(0,52,145,0) 0%,rgba(0,18,58,.55) 100%)}
+#rays{mix-blend-mode:screen;opacity:.5}
+.ray{position:absolute;top:-30%;width:220px;height:160%;background:linear-gradient(180deg,rgba(146,206,255,.55),rgba(146,206,255,0) 70%);filter:blur(28px);transform-origin:top center}
+.bub{position:absolute;top:0;border-radius:50%;border:2px solid rgba(190,230,255,.55);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.5),rgba(146,206,255,.08))}
+svg{position:absolute;inset:0}
+</style></head><body>
+<div id="root" data-composition-id="hero" data-start="0" data-width="1920" data-height="1080" data-duration="8" data-fps="30">
+  <div id="bg" class="layer"></div>
+  <div id="rays" class="layer"></div>
+  <svg id="mesh" viewBox="0 0 1920 1080" class="layer"></svg>
+  <div id="bubs" class="layer"></div>
+  <div id="tint" class="layer"></div>
+</div>
+<script>
+const rnd=(function(){let s=7;return function(){s=(s*16807)%2147483647;return s/2147483647;};})();
+const tl=gsap.timeline({paused:true});
+tl.fromTo("#bg",{scale:1.04,x:0,y:0},{scale:1.12,x:-30,y:-14,duration:4,ease:"sine.inOut"},0)
+  .to("#bg",{scale:1.04,x:0,y:0,duration:4,ease:"sine.inOut"},4);
+const rays=document.getElementById("rays");
+for(let i=0;i<7;i++){const r=document.createElement("div");r.className="ray";r.style.left=(i*320-200)+"px";r.style.width=(140+rnd()*160)+"px";rays.appendChild(r);
+  tl.fromTo(r,{rotation:-14+i*1.5,opacity:.35},{rotation:-4+i*1.5,opacity:.9,duration:4,ease:"sine.inOut"},0)
+    .to(r,{rotation:-14+i*1.5,opacity:.35,duration:4,ease:"sine.inOut"},4);}
+const bubs=document.getElementById("bubs"),B=[];
+for(let i=0;i<46;i++){const b=document.createElement("div");b.className="bub";const s=6+rnd()*26;
+  b.style.width=b.style.height=s+"px";b.style.left=(rnd()*1900)+"px";bubs.appendChild(b);
+  B.push({el:b,loops:rnd()>.5?1:2,off:rnd(),drift:(rnd()-.5)*120});}
+const svg=document.getElementById("mesh"),N=34,pts=[];
+for(let i=0;i<N;i++)pts.push({x:900+rnd()*1000,y:80+rnd()*900,ph:rnd()*6.28,a:10+rnd()*28});
+const NS="http://www.w3.org/2000/svg",lines=[],dots=[];
+for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<260){const l=document.createElementNS(NS,"line");l.setAttribute("stroke","rgba(190,235,255,.35)");l.setAttribute("stroke-width","1.2");svg.appendChild(l);lines.push([l,i,j]);}}
+pts.forEach(function(){const c=document.createElementNS(NS,"circle");c.setAttribute("r",3.5);c.setAttribute("fill","#bfe6ff");svg.appendChild(c);dots.push(c);});
+const state={t:0};
+function draw(){const t=state.t/8*Math.PI*2;
+  B.forEach(function(q){const u=((state.t/8)*q.loops+q.off)%1;q.el.style.transform="translate("+(q.drift*u)+"px,"+(1180-1380*u)+"px)";q.el.style.opacity=Math.min(u/.2,(1-u)/.25,1)*.9;});
+  pts.forEach(function(p,i){p.cx=p.x+Math.cos(t+p.ph)*p.a;p.cy=p.y+Math.sin(t+p.ph)*p.a;dots[i].setAttribute("cx",p.cx);dots[i].setAttribute("cy",p.cy);dots[i].setAttribute("opacity",.4+.6*Math.abs(Math.sin(t*2+p.ph)));});
+  lines.forEach(function(a){const l=a[0],i=a[1],j=a[2];l.setAttribute("x1",pts[i].cx);l.setAttribute("y1",pts[i].cy);l.setAttribute("x2",pts[j].cx);l.setAttribute("y2",pts[j].cy);});}
+tl.to(state,{t:8,duration:8,ease:"none",onUpdate:draw},0);draw();
+window.__timelines["hero"]=tl;
+</script></body></html>

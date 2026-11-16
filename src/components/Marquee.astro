@@ -1,0 +1,10 @@
+---
+import { t, type Lang } from '../i18n/content';
+const { lang } = Astro.props as { lang: Lang };
+const words = t[lang].marquee;
+---
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {[0, 1].map(() => words.map((w) => <span class="marquee-item">{w}<i></i></span>))}
+  </div>
+</div>

@@ -1,0 +1,53 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import { routes, t, waLink, type Lang, type RouteKey } from '../i18n/content';
+import '../styles/global.css';
+
+const { lang, current } = Astro.props as { lang: Lang; current: RouteKey };
+const [title, description] = t[lang].meta[current];
+const d = t[lang];
+const site = Astro.site ?? new URL('https://sharkagency.co');
+const url = new URL(routes[current][lang], site).href;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#003491" />
+    <link rel="canonical" href={url} />
+    <link rel="alternate" hreflang="en" href={new URL(routes[current].en, site).href} />
+    <link rel="alternate" hreflang="es" href={new URL(routes[current].es, site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(routes[current].en, site).href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={new URL('/og.png', site).href} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_AU' : 'es_CO'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip" href="#main">{d.nav.skip}</a>
+    <Header lang={lang} current={current} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+    <div class="wa-fab">
+      <span class="bubble">{d.a11y.help}</span>
+      <a class="btn-wa" href={waLink(d.cta.wa)} target="_blank" rel="noopener" aria-label={d.a11y.whatsapp}><Icon name="whatsapp" /></a>
+    </div>
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+  </body>
+</html>

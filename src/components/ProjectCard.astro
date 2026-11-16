@@ -1,0 +1,22 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { projects, t, type Lang } from '../i18n/content';
+
+const { lang, p } = Astro.props as { lang: Lang; p: (typeof projects)[number] };
+const imgs = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.png', { eager: true });
+const get = (n: string) => imgs[`../assets/projects/${n}.png`].default;
+const [title, kind, desc] = (t[lang].work.items as Record<string, readonly string[]>)[p.key];
+const a = get(p.imgs[0]);
+const b = get(p.imgs[1]);
+---
+<article class="pcard">
+  <div class="pcard-media">
+    <span class="pcard-tag">{kind}</span>
+    <Image src={a} alt={title} width={900} sizes="(max-width: 900px) 80vw, 560px" loading="lazy" />
+    {p.imgs[1] !== p.imgs[0] && <Image src={b} alt="" width={900} sizes="(max-width: 900px) 80vw, 560px" loading="lazy" />}
+  </div>
+  <h3>{title}</h3>
+  <p>{desc}</p>
+  {p.url && <a class="arrow-link" href={p.url} target="_blank" rel="noopener">{lang === 'en' ? 'See project' : 'Ver proyecto'}<i><Icon name="arrow" /></i></a>}
+</article>

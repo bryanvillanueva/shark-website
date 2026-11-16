@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "historyId": "af7322db-6247-4bfd-abba-f3121c2346ed",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "index.html": {
+      "hash": "d8b3ca70fe0fe9bb1d6f18ab08f2faaa67b56a73d94d8c367f9e5002111a0db3",
+      "content": "C:\\Users\\bryan\\.cache\\hyperframes\\history\\af7322db-6247-4bfd-abba-f3121c2346ed\\blobs\\d8\\d8b3ca70fe0fe9bb1d6f18ab08f2faaa67b56a73d94d8c367f9e5002111a0db3"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "64640346-f2ef-4ca8-bb04-82784c27921e",
+      "completedAt": 1792055965808,
+      "output": "C:\\Users\\bryan\\Documents\\shark-website\\mi-proyecto\\video\\network-raw.mp4",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}
